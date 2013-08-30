@@ -1,5 +1,5 @@
 {
-   "abstract" : "Blah blah blah",
+   "abstract" : "Send IRC notices from your dancer app",
    "author" : [
       "Alan Berndt <alan@eatabrick.org>"
    ],
