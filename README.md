@@ -54,7 +54,7 @@ Copyright 2013 Alan Berndt
 
 # LICENSE
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software.  You may redistribute it under the terms of the
+MIT license.
 
 # SEE ALSO
