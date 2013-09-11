@@ -47,12 +47,14 @@ register notify => sub {
       $socket->say("QUIT");
 
       info "Notice sent";
+      exit if $config->{fork};
       return;
     }
   }
 
   info "Notice not sent";
 
+  exit if $config->{fork};
   return;
 };
 
