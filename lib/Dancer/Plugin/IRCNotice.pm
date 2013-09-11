@@ -8,7 +8,7 @@ use Dancer ':syntax';
 use Dancer::Plugin;
 use IO::Socket::IP;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 register notify => sub {
   my ($message) = @_;
