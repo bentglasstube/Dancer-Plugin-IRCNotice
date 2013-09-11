@@ -17,10 +17,10 @@ register notify => sub {
 
   my $config = plugin_setting;
 
-  $config->{host}    //= 'chat.freenode.net';
-  $config->{nick}    //= sprintf('dpin%04u', int(rand() * 10000));
-  $config->{name}    //= $config->{nick};
-  $config->{channel} //= '#dpintest';
+  $config->{host}    ||= 'chat.freenode.net';
+  $config->{nick}    ||= sprintf('dpin%04u', int(rand() * 10000));
+  $config->{name}    ||= $config->{nick};
+  $config->{channel} ||= '#dpintest';
 
   fork and return if $config->{fork};
 
