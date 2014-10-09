@@ -4,11 +4,17 @@ use 5.008_005;
 use strict;
 use warnings;
 
+use Carp 'croak';
 use Dancer ':syntax';
 use Dancer::Plugin;
 use IO::Socket::IP;
 
 our $VERSION = '0.05';
+
+our %TYPES = (
+  notice  => 'NOTICE',
+  message => 'PRIVMSG',
+);
 
 register notify => sub {
   my ($message) = @_;
@@ -21,7 +27,10 @@ register notify => sub {
   $config->{nick}    ||= sprintf 'dpin%04u', int(rand() * 10000);
   $config->{name}    ||= $config->{nick};
   $config->{channel} ||= '#dpintest';
+  $config->{type}    ||= 'notice';
 
+  croak "Invalid type settings $config->{type}"
+    unless exists $TYPES{ $config->{type} };
 
   # Add default port
   $config->{host} .= ':6667' unless $config->{host} =~ /:\d+$/;
@@ -42,7 +51,7 @@ register notify => sub {
     if ($line =~ /End of \/MOTD/) {
       info "Sending notice to $config->{channel}";
 
-      $socket->say("NOTICE $config->{channel} :$message");
+      $socket->say("$TYPES{$config->{type}} $config->{channel} :$message");
       $socket->say('QUIT');
 
       info 'Notice sent';
@@ -86,8 +95,13 @@ This is B<very alpha> software right now.  No error checking is done.
       nick: 'testnick12345'
       name: 'Dancer::Plugin::IRCNotify'
       channel: '#dpintest'
+      type: 'notice'
 
 The host, nick, name, and channel should be pretty obvious.
+
+The type parameter lets you pick the type of message to send.  The default is
+"notice" which sends a notice to the channel.  You can also choose "message"
+which well send a normal message to the channel.
 
 =head1 TODO
 
