@@ -9,7 +9,7 @@ use Dancer ':syntax';
 use Dancer::Plugin;
 use IO::Socket::IP;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 our %TYPES = (
   notice  => 'NOTICE',

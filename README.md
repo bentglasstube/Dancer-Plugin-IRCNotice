@@ -13,8 +13,7 @@ Dancer::Plugin::IRCNotice - Send IRC notices from your dancer app
 Dancer::Plugin::IRCNotice provides a quick and dirty way to send IRC NOTICEs to
 a specific channel.
 
-This is __very alpha__ software right now.  No error checking is done and it
-uses a fork to (optionally) background the process of sending the notice.
+This is **very alpha** software right now.  No error checking is done.
 
 # CONFIGURATION
 
@@ -24,25 +23,26 @@ uses a fork to (optionally) background the process of sending the notice.
         nick: 'testnick12345'
         name: 'Dancer::Plugin::IRCNotify'
         channel: '#dpintest'
-        fork: 1
+        type: 'notice'
 
-The host, nick, name, and channel should be pretty obvious.  If fork is set to
-a true value, the plugin will fork and background the sending of the notice.
+The host, nick, name, and channel should be pretty obvious.
+
+The type parameter lets you pick the type of message to send.  The default is
+"notice" which sends a notice to the channel.  You can also choose "message"
+which well send a normal message to the channel.
 
 # TODO
 
 This is so bootleg, it really needs to be cleaned up to handle IRC correctly.
 Unfortunately, all of the IRC modules I saw on cpan are event based
-monstrosities so this just uses [IO::Socket::IP](http://search.cpan.org/perldoc?IO::Socket::IP) to connect.
+monstrosities so this just uses [IO::Socket::IP](https://metacpan.org/pod/IO::Socket::IP) to connect.
 
 The notify routine should probably let you override the settings or maybe I
-should use something like [Dancer::Plugin::DBIC](http://search.cpan.org/perldoc?Dancer::Plugin::DBIC) to define multiple notifiers
+should use something like [Dancer::Plugin::DBIC](https://metacpan.org/pod/Dancer::Plugin::DBIC) to define multiple notifiers
 that can then be used.
 
 A connection to IRC must be made for each notification presently.  Instead, it
-should try to keep a connection open and reuse it or something.  However, that
-would require threads instead of simple forking, and I'm not sure how that will
-play with whatever plack frontend people are using.
+should try to keep a connection open and reuse it or something.
 
 # AUTHOR
 
