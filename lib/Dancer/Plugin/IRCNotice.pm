@@ -18,11 +18,10 @@ register notify => sub {
   my $config = plugin_setting;
 
   $config->{host}    ||= 'chat.freenode.net';
-  $config->{nick}    ||= sprintf('dpin%04u', int(rand() * 10000));
+  $config->{nick}    ||= sprintf 'dpin%04u', int(rand() * 10000);
   $config->{name}    ||= $config->{nick};
   $config->{channel} ||= '#dpintest';
 
-  fork and return if $config->{fork};
 
   # Add default port
   $config->{host} .= ':6667' unless $config->{host} =~ /:\d+$/;
@@ -44,17 +43,14 @@ register notify => sub {
       info "Sending notice to $config->{channel}";
 
       $socket->say("NOTICE $config->{channel} :$message");
-      $socket->say("QUIT");
+      $socket->say('QUIT');
 
-      info "Notice sent";
-      exit if $config->{fork};
+      info 'Notice sent';
       return;
     }
   }
 
-  info "Notice not sent";
-
-  exit if $config->{fork};
+  info 'Notice not sent';
   return;
 };
 
@@ -80,8 +76,7 @@ Dancer::Plugin::IRCNotice - Send IRC notices from your dancer app
 Dancer::Plugin::IRCNotice provides a quick and dirty way to send IRC NOTICEs to
 a specific channel.
 
-This is B<very alpha> software right now.  No error checking is done and it
-uses a fork to (optionally) background the process of sending the notice.
+This is B<very alpha> software right now.  No error checking is done.
 
 =head1 CONFIGURATION
 
@@ -91,10 +86,8 @@ uses a fork to (optionally) background the process of sending the notice.
       nick: 'testnick12345'
       name: 'Dancer::Plugin::IRCNotify'
       channel: '#dpintest'
-      fork: 1
 
-The host, nick, name, and channel should be pretty obvious.  If fork is set to
-a true value, the plugin will fork and background the sending of the notice.
+The host, nick, name, and channel should be pretty obvious.
 
 =head1 TODO
 
@@ -107,9 +100,7 @@ should use something like L<Dancer::Plugin::DBIC> to define multiple notifiers
 that can then be used.
 
 A connection to IRC must be made for each notification presently.  Instead, it
-should try to keep a connection open and reuse it or something.  However, that
-would require threads instead of simple forking, and I'm not sure how that will
-play with whatever plack frontend people are using.
+should try to keep a connection open and reuse it or something.
 
 =head1 AUTHOR
 
